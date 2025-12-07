@@ -1,0 +1,200 @@
+===== XGBoost Modelling Report =====
+
+1. Data Overview
+Full data shape (samples, features): (126, 136)
+Feature-to-sample size ratio (ALL features used in the model):
+  136 features / 126 samples = 1.079 (~0.93 samples per feature)
+
+2. SHAP-based Feature Importance (sorted, all features):
+           Feature  MeanAbsSHAP  RelativeImportance  CumulativeImportance  Selected
+        Biotite_a0     8.590536            1.000000              0.362803      True
+    Biotite (mm^2)     2.812121            0.327351              0.481567      True
+    Plagioclase_a0     1.680418            0.195613              0.552536      True
+Plagioclase (mm^2)     1.437068            0.167285              0.613228      True
+       Biotite_b15     0.636369            0.074078              0.640103      True
+     K-Feldspar_a0     0.411019            0.047846              0.657462      True
+         Quartz_a0     0.332407            0.038695              0.671500      True
+   Plagioclase_a16     0.308073            0.035862              0.684511      True
+    Plagioclase_a7     0.217283            0.025293              0.693687      True
+     Quartz (mm^2)     0.214851            0.025010              0.702761      True
+    Plagioclase_a4     0.187160            0.021787              0.710666      True
+   Plagioclase_b10     0.177174            0.020624              0.718148      True
+     K-Feldspar_a1     0.172747            0.020109              0.725444      True
+    Plagioclase_b1     0.155182            0.018064              0.731998     False
+        Biotite_b5     0.148441            0.017280              0.738267     False
+       Biotite_a16     0.146464            0.017049              0.744452     False
+        Biotite_b6     0.126381            0.014712              0.749790     False
+        Biotite_b1     0.125321            0.014588              0.755082     False
+        Biotite_b3     0.123262            0.014349              0.760288     False
+   Plagioclase_a11     0.117714            0.013703              0.765259     False
+        Quartz_a11     0.115582            0.013455              0.770141     False
+        Biotite_a9     0.115359            0.013429              0.775013     False
+   Plagioclase_b14     0.111001            0.012921              0.779701     False
+     K-Feldspar_a3     0.110516            0.012865              0.784368     False
+        Biotite_a1     0.107135            0.012471              0.788893     False
+ K-feldspar (mm^2)     0.105187            0.012245              0.793335     False
+        Biotite_a4     0.096505            0.011234              0.797410     False
+       Biotite_a13     0.096212            0.011200              0.801474     False
+   Plagioclase_b13     0.093104            0.010838              0.805406     False
+         Quartz_b1     0.091140            0.010609              0.809255     False
+        Quartz_b11     0.090905            0.010582              0.813094     False
+    Plagioclase_a3     0.090084            0.010486              0.816899     False
+    K-Feldspar_b15     0.087218            0.010153              0.820582     False
+    Plagioclase_b5     0.087116            0.010141              0.824261     False
+     K-Feldspar_a9     0.086811            0.010105              0.827928     False
+   Plagioclase_b15     0.085731            0.009980              0.831548     False
+    Plagioclase_a9     0.084649            0.009854              0.835123     False
+        Biotite_b2     0.083184            0.009683              0.838636     False
+        Quartz_b14     0.083024            0.009665              0.842143     False
+     K-Feldspar_a2     0.082485            0.009602              0.845626     False
+    Plagioclase_b7     0.081224            0.009455              0.849056     False
+        Quartz_a15     0.078008            0.009081              0.852351     False
+       Biotite_a15     0.074968            0.008727              0.855517     False
+    K-Feldspar_b12     0.074006            0.008615              0.858643     False
+         Quartz_a3     0.072674            0.008460              0.861712     False
+       Biotite_b10     0.072073            0.008390              0.864756     False
+        Quartz_a14     0.071156            0.008283              0.867761     False
+       Biotite_b11     0.071004            0.008265              0.870759     False
+       Biotite_a12     0.069513            0.008092              0.873695     False
+         Quartz_b5     0.066147            0.007700              0.876489     False
+        Biotite_b7     0.065489            0.007623              0.879255     False
+   Plagioclase_a10     0.063508            0.007393              0.881937     False
+         Quartz_a1     0.062211            0.007242              0.884564     False
+         Quartz_a4     0.061574            0.007168              0.887164     False
+         Quartz_b4     0.060893            0.007088              0.889736     False
+         Quartz_b9     0.060486            0.007041              0.892291     False
+       Biotite_a10     0.058651            0.006827              0.894768     False
+     K-Feldspar_a7     0.058526            0.006813              0.897239     False
+        Biotite_a7     0.057260            0.006665              0.899658     False
+        Biotite_a8     0.053612            0.006241              0.901922     False
+         Quartz_a7     0.052283            0.006086              0.904130     False
+   Plagioclase_a13     0.052211            0.006078              0.906335     False
+    Plagioclase_a1     0.051761            0.006025              0.908521     False
+         Quartz_a6     0.049927            0.005812              0.910629     False
+     K-Feldspar_a6     0.049914            0.005810              0.912737     False
+    K-Feldspar_a14     0.047922            0.005578              0.914761     False
+    K-Feldspar_b11     0.047903            0.005576              0.916784     False
+     K-Feldspar_a8     0.047841            0.005569              0.918805     False
+    Plagioclase_b6     0.047829            0.005568              0.920825     False
+        Biotite_a5     0.047296            0.005506              0.922822     False
+       Biotite_b14     0.046215            0.005380              0.924774     False
+         Quartz_a8     0.046212            0.005379              0.926726     False
+        Quartz_b13     0.043913            0.005112              0.928580     False
+         Quartz_a5     0.043483            0.005062              0.930417     False
+    Plagioclase_b8     0.043299            0.005040              0.932245     False
+       Biotite_a11     0.043204            0.005029              0.934070     False
+    K-Feldspar_b10     0.043203            0.005029              0.935895     False
+         Quartz_b2     0.042922            0.004996              0.937707     False
+         Quartz_a9     0.041378            0.004817              0.939455     False
+       Biotite_a14     0.041345            0.004813              0.941201     False
+   Plagioclase_b11     0.041273            0.004804              0.942944     False
+         Quartz_a2     0.041176            0.004793              0.944683     False
+     K-Feldspar_b5     0.038627            0.004496              0.946314     False
+        Quartz_b10     0.037775            0.004397              0.947910     False
+        Quartz_a12     0.036459            0.004244              0.949449     False
+     K-Feldspar_a4     0.035900            0.004179              0.950966     False
+    K-Feldspar_a10     0.035727            0.004159              0.952474     False
+    K-Feldspar_a11     0.035159            0.004093              0.953959     False
+    Plagioclase_a6     0.035052            0.004080              0.955440     False
+    Plagioclase_a8     0.034317            0.003995              0.956889     False
+        Quartz_a16     0.033531            0.003903              0.958305     False
+        Biotite_a3     0.033212            0.003866              0.959708     False
+         Quartz_b8     0.033028            0.003845              0.961103     False
+        Quartz_b15     0.032968            0.003838              0.962495     False
+   Plagioclase_a12     0.032836            0.003822              0.963882     False
+         Quartz_b7     0.032693            0.003806              0.965262     False
+        Biotite_b9     0.032231            0.003752              0.966624     False
+    Plagioclase_b3     0.032156            0.003743              0.967982     False
+     K-Feldspar_b2     0.031222            0.003634              0.969300     False
+     K-Feldspar_b9     0.031015            0.003610              0.970610     False
+     K-Feldspar_b3     0.030974            0.003606              0.971918     False
+    Plagioclase_a2     0.030118            0.003506              0.973190     False
+        Biotite_a6     0.029324            0.003413              0.974429     False
+        Biotite_b8     0.027578            0.003210              0.975593     False
+        Biotite_a2     0.027424            0.003192              0.976752     False
+    K-Feldspar_a16     0.026212            0.003051              0.977859     False
+     K-Feldspar_a5     0.026042            0.003032              0.978958     False
+   Plagioclase_b16     0.024908            0.002899              0.980010     False
+        Quartz_b16     0.024141            0.002810              0.981030     False
+        Quartz_b12     0.024003            0.002794              0.982044     False
+    Plagioclase_a5     0.022914            0.002667              0.983011     False
+        Quartz_a13     0.022445            0.002613              0.983959     False
+    Plagioclase_b4     0.022443            0.002613              0.984907     False
+         Quartz_b6     0.021992            0.002560              0.985836     False
+     K-Feldspar_b6     0.021794            0.002537              0.986756     False
+   Plagioclase_a14     0.021782            0.002536              0.987676     False
+    Plagioclase_b2     0.021640            0.002519              0.988590     False
+    K-Feldspar_b13     0.020764            0.002417              0.989467     False
+    Plagioclase_b9     0.020221            0.002354              0.990321     False
+       Biotite_b12     0.020078            0.002337              0.991169     False
+       Biotite_b16     0.019701            0.002293              0.992001     False
+    K-Feldspar_b16     0.019563            0.002277              0.992827     False
+         Quartz_b3     0.019391            0.002257              0.993646     False
+       Biotite_b13     0.019250            0.002241              0.994459     False
+   Plagioclase_a15     0.016909            0.001968              0.995173     False
+        Quartz_a10     0.015529            0.001808              0.995829     False
+     K-Feldspar_b1     0.015419            0.001795              0.996480     False
+     K-Feldspar_b8     0.014803            0.001723              0.997105     False
+        Biotite_b4     0.012201            0.001420              0.997621     False
+   Plagioclase_b12     0.012041            0.001402              0.998129     False
+    K-Feldspar_b14     0.011318            0.001318              0.998607     False
+    K-Feldspar_a13     0.009692            0.001128              0.999017     False
+    K-Feldspar_a15     0.007848            0.000914              0.999348     False
+     K-Feldspar_b4     0.006838            0.000796              0.999637     False
+    K-Feldspar_a12     0.004813            0.000560              0.999840     False
+     K-Feldspar_b7     0.003784            0.000440              1.000000     False
+
+Top features based on SHAP (for interpretation; ALL features used in model):
+  - Biotite_a0
+  - Biotite (mm^2)
+  - Plagioclase_a0
+  - Plagioclase (mm^2)
+  - Biotite_b15
+  - K-Feldspar_a0
+  - Quartz_a0
+  - Plagioclase_a16
+  - Plagioclase_a7
+  - Quartz (mm^2)
+  - Plagioclase_a4
+  - Plagioclase_b10
+  - K-Feldspar_a1
+Number of top features (interpretation): 13
+
+3. Optimal Hyperparameters (Optuna):
+  n_estimators: 393
+  max_depth: 3
+  learning_rate: 0.13747980720738495
+  subsample: 0.8135609244938479
+  colsample_bytree: 0.86311510842486
+  gamma: 14.260104717581406
+  alpha: 1.035945224405717
+  lambda: 16.62001171117428
+
+4. Final Model Performance (Single Train/Test Split)
+Training Metrics:
+  R²   : 0.9893
+  MAE  : 0.9790
+  RMSE : 1.7066
+  MAPE : 0.76%
+Testing Metrics:
+  R²   : 0.8858
+  MAE  : 5.2354
+  RMSE : 6.1826
+  MAPE : 4.21%
+
+5. Repeated k-fold Cross-Validation Summary
+  Setting: 5-fold, 10 repeats (50 total folds)
+  R²   : 0.7957 ± 0.0786
+  MAE  : 5.8546 ± 0.9448
+  RMSE : 7.2905 ± 1.0961
+  MAPE : 4.66% ± 0.74%
+
+6. Learning Curve (Training vs Validation R²)
+Train sizes and mean R²:
+  n_train =   20 | Training R² = 0.9131, Validation R² = -1.8420
+  n_train =   40 | Training R² = 0.9887, Validation R² = 0.6145
+  n_train =   60 | Training R² = 0.9911, Validation R² = 0.7211
+  n_train =   80 | Training R² = 0.9908, Validation R² = 0.7628
+  n_train =  100 | Training R² = 0.9904, Validation R² = 0.7922
+
+Report generated successfully.
