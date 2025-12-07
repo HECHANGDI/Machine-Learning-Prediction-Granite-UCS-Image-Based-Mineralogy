@@ -4,6 +4,6 @@ This study uses machine learning (ML) models to predict the uniaxial compressive
 # Image dataset
 Find the images in the folder of: <br>
 
-<img width="900" height="786" alt="image" src="https://github.com/user-attachments/assets/da2c3bc3-7dfa-4d57-b6f5-46f5ec677211" />
+<img width="900/2" height="786/2" alt="image" src="https://github.com/user-attachments/assets/da2c3bc3-7dfa-4d57-b6f5-46f5ec677211" />
 
 
