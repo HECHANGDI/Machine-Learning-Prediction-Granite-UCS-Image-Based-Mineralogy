@@ -31,13 +31,13 @@ Please find the tool via the link:
 # Please cite the following papers while using the follwing datasets:
 1. He, C., Mishra, B., & Potyondy, D. O. (2026). Impact of mineralogical features on the mechanical behaviors of granite: A study using physically informed 3D microstructural model. International Journal of Rock Mechanics and Mining Sciences, 197, 106355.
 @article{he2026impact,
-  title={Impact of mineralogical features on the mechanical behaviors of granite: A study using physically informed 3D microstructural model},
-  author={He, Changdi and Mishra, Brijes and Potyondy, David Oskar},
-  journal={International Journal of Rock Mechanics and Mining Sciences},
-  volume={197},
-  pages={106355},
-  year={2026},
-  publisher={Elsevier}
+  title={Impact of mineralogical features on the mechanical behaviors of granite: A study using physically informed 3D microstructural model}, <br>
+  author={He, Changdi and Mishra, Brijes and Potyondy, David Oskar},<br>
+  journal={International Journal of Rock Mechanics and Mining Sciences},<br>
+  volume={197},<br>
+  pages={106355},<br>
+  year={2026},<br>
+  publisher={Elsevier}<br>
 }
 =====================================================
 2. 
