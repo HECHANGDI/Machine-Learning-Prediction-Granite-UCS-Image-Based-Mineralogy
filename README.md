@@ -16,3 +16,26 @@ Please find the tool via the link:
 
 
 # Training the Optuna-XGBoost model using the features (with SHAP-based feature selection for Cases 4 -- 7)
+
+
+
+
+
+# Roubstness verification (using Case 7 as an example)
+
+
+
+# Effect of the hyperparameter optimization techniques
+
+
+# Please cite the following papers while using the follwing datasets:
+@article{he2026impact,
+  title={Impact of mineralogical features on the mechanical behaviors of granite: A study using physically informed 3D microstructural model},
+  author={He, Changdi and Mishra, Brijes and Potyondy, David Oskar},
+  journal={International Journal of Rock Mechanics and Mining Sciences},
+  volume={197},
+  pages={106355},
+  year={2026},
+  publisher={Elsevier}
+}
+
