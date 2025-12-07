@@ -7,3 +7,12 @@ Find the images in the folder of: <br>
 <img width="450" height="400" alt="image" src="https://github.com/user-attachments/assets/da2c3bc3-7dfa-4d57-b6f5-46f5ec677211" />
 
 
+# DIP Web Tool
+Please find the tool via the link: 
+
+# Training the Optuna-XGBoost model using the features (without SHAP-based feature selection)
+
+
+
+
+# Training the Optuna-XGBoost model using the features (with SHAP-based feature selection for Cases 4 -- 7)
