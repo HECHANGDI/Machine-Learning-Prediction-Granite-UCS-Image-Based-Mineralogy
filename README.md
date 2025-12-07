@@ -38,6 +38,6 @@ Please find the tool via the link:
   pages={106355},<br>
   year={2026},<br>
   publisher={Elsevier}<br>
-}
+}<br>
 =====================================================
 2. 
