@@ -1,0 +1,16 @@
+Optimised Parameters (PSO + top-15 SHAP features):
+{'n_estimators': 243, 'max_depth': 4, 'learning_rate': np.float64(0.29889890933337726), 'subsample': np.float64(0.8525927650837971), 'colsample_bytree': np.float64(0.9877255810938083), 'gamma': np.float64(18.250431602325456), 'alpha': np.float64(12.029636260516433), 'lambda': np.float64(17.407711117479348)}
+
+Single train/test split metrics:
+Training:
+  R²: 0.9633, MAE: 2.1674, MSE: 10.0058, RMSE: 3.1632, MAPE: 1.70%
+Testing:
+  R²: 0.8861, MAE: 5.3304, MSE: 38.1361, RMSE: 6.1754, MAPE: 4.25%
+
+Model shows good generalization.
+
+Repeated k-fold CV metrics (n_splits=5, n_repeats=10):
+  R²   : 0.8208 ± 0.0696
+  MAE  : 5.4049 ± 0.8021
+  RMSE : 6.8126 ± 1.0499
+  MAPE : 4.25% ± 0.62%
