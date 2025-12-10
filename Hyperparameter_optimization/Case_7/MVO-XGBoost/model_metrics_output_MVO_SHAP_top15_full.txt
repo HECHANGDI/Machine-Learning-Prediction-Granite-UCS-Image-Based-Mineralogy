@@ -1,0 +1,16 @@
+Optimised Parameters (MVO + top-15 SHAP features):
+{'n_estimators': 241, 'max_depth': 9, 'learning_rate': np.float64(0.3), 'subsample': np.float64(0.6), 'colsample_bytree': np.float64(0.6431365146508871), 'gamma': np.float64(6.359292781433658), 'alpha': np.float64(8.62932237978197), 'lambda': np.float64(11.847486035845213)}
+
+Single train/test split metrics:
+Training:
+  R²: 0.9841, MAE: 1.3134, MSE: 4.3311, RMSE: 2.0811, MAPE: 1.04%
+Testing:
+  R²: 0.8799, MAE: 5.6608, MSE: 40.2085, RMSE: 6.3410, MAPE: 4.49%
+
+Warning: Model might be overfitting. Consider tuning regularization parameters further or adding more data.
+
+Repeated k-fold CV metrics (n_splits=5, n_repeats=10):
+  R²   : 0.8002 ± 0.0850
+  MAE  : 5.5996 ± 1.0016
+  RMSE : 7.1508 ± 1.2981
+  MAPE : 4.41% ± 0.78%

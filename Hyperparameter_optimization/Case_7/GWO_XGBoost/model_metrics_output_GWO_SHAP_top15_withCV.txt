@@ -1,0 +1,14 @@
+Optimised Parameters (GWO + top-15 SHAP features):
+{'n_estimators': 170, 'max_depth': 8, 'learning_rate': np.float64(0.26486843646294744), 'subsample': np.float64(0.6000230459024994), 'colsample_bytree': np.float64(0.6338408571782183), 'gamma': np.float64(17.455697433356793), 'alpha': np.float64(0.2920658766481214), 'lambda': np.float64(11.937528109168852)}
+
+Single train/test split metrics:
+Training: R²=0.9830, MAE=1.4627, MSE=4.6279, RMSE=2.1512, MAPE=1.16%
+Testing : R²=0.8820, MAE=5.4400, MSE=39.5120, RMSE=6.2859, MAPE=4.25%
+
+Repeated 5-fold CV (10 repeats) metrics (mean ± SD):
+R²   : 0.8147 ± 0.0723
+MAE  : 5.3989 ± 0.9018
+RMSE : 6.9185 ± 1.1171
+MAPE : 4.26% ± 0.72%
+
+Warning: Model might be overfitting. Consider tuning regularisation parameters further or adding more data.
