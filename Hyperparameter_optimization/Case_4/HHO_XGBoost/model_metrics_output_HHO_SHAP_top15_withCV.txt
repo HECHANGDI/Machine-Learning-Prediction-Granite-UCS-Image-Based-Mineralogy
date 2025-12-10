@@ -1,0 +1,14 @@
+Optimised Parameters (HHO + top-15 SHAP features):
+{'n_estimators': 471, 'max_depth': 4, 'learning_rate': np.float64(0.2801716282843773), 'subsample': np.float64(0.8530135793657313), 'colsample_bytree': np.float64(0.9089641676487756), 'gamma': np.float64(17.49791165165607), 'alpha': np.float64(6.271227786164427), 'lambda': np.float64(16.79241602968301)}
+
+Single train/test split metrics:
+Training: R²=0.9726, MAE=1.8709, MSE=7.4523, RMSE=2.7299, MAPE=1.46%
+Testing : R²=0.8874, MAE=5.3487, MSE=37.7021, RMSE=6.1402, MAPE=4.26%
+
+Repeated 5-fold CV (10 repeats) metrics (mean ± SD):
+R²   : 0.8307 ± 0.0696
+MAE  : 5.1975 ± 0.8264
+RMSE : 6.5980 ± 1.0749
+MAPE : 4.09% ± 0.64%
+
+Model shows good generalisation.

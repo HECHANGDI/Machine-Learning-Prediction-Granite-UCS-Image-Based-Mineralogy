@@ -1,0 +1,61 @@
+===== Dataset & Feature Information =====
+Full data shape (samples, features): 126 x 40
+Original feature-to-sample size ratio: 40 / 126 = 0.317 (~3.15 samples per feature)
+
+Selected features after SHAP:
+  - Biotite_a0
+  - Biotite (mm^2)
+  - Plagioclase_a0
+  - Plagioclase (mm^2)
+  - K-Feldspar_a0
+  - Quartz_a0
+  - Plagioclase_b3
+  - Biotite_b3
+  - Quartz (mm^2)
+  - Plagioclase_a3
+  - K-Feldspar_a1
+  - Plagioclase_a4
+  - Biotite_a2
+  - K-Feldspar_a3
+  - Biotite_a1
+Number of selected features: 15
+Reduced feature-to-sample size ratio: 15 / 126 = 0.119 (~8.40 samples per feature)
+
+===== Hyperparameter Optimisation (Optuna) =====
+Best parameters:
+  n_estimators: 324
+  max_depth: 3
+  learning_rate: 0.27076509722791053
+  subsample: 0.8335088885335213
+  colsample_bytree: 0.985633421936589
+  gamma: 16.812081272601006
+  alpha: 1.7872213094312444
+  lambda: 19.999073383699827
+
+===== Single Train/Test Split Performance =====
+Training metrics:
+  R²   : 0.9768
+  MAE  : 1.7535
+  RMSE : 2.51603819717795529342652116611134260892868042
+  MAPE : 1.37%
+
+Testing metrics:
+  R²   : 0.9229
+  MAE  : 4.2981
+  RMSE : 5.0791
+  MAPE : 3.42%
+
+===== Repeated k-fold Cross-Validation =====
+Setting: 5-fold, 10 repeats (50 folds in total)
+  R²   : 0.8363 ± 0.0665
+  MAE  : 5.1213 ± 0.8337
+  RMSE : 6.5057 ± 1.0421
+  MAPE : 4.03% ± 0.64%
+
+===== Learning Curve (R²) =====
+Train sizes (number of samples) and mean R²:
+  n_train = 20: Train R² = 0.8890, Validation R² = -1.3048
+  n_train = 40: Train R² = 0.9819, Validation R² = 0.6720
+  n_train = 60: Train R² = 0.9818, Validation R² = 0.7708
+  n_train = 80: Train R² = 0.9811, Validation R² = 0.7898
+  n_train = 100: Train R² = 0.9788, Validation R² = 0.8418
