@@ -1,7 +1,7 @@
 # Machine-Learning-for-Predicting-the-UCS-of-Granite-from-Image-Derived-Mineralogical-Features
 This study uses machine learning (ML) models to predict the numerically simulated uniaxial compressive strength (UCS) of granite directly from digital images. Specifically, the images were processed using an in-house Digital Image Processing (DIP) tool to derive mineralogical features (used as input features for the ML models), including mineral content, grain size, and spatial distribution. Mineral content and distribution were quantified using $m$-harmonic Fourier series equations, whereas mineral grain size was determined using the 4-connectivity method. The target UCS values were derived from the 2D physically informed Subspring Network Breakable Voronoi (SNBV) microstructural models, replicating the mineralogical features observed in the granite images. Extreme Gradient Boosting (XGBoost) models with different input combinations and hyperparameter optimization methods were trained and evaluated on 126 granite images using a single train/test split and repeated 5-fold cross-validation.
 
-<img width="600" height="500" alt="image" src="https://github.com/user-attachments/assets/ba421ffe-bc31-4cf9-8b42-5a75e6a4555c" />
+<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/ba421ffe-bc31-4cf9-8b42-5a75e6a4555c" />
 
 
 # Image dataset
