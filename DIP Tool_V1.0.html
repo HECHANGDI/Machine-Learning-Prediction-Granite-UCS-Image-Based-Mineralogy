@@ -1,0 +1,983 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Digital Image Tool - Final Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* Theme Variables */
+      --bg-app: #f3f4f6;
+      --bg-panel: #ffffff;
+      --bg-canvas: #ffffff;
+      --border: #d1d5db;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --radius: 8px;
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; outline: none; }
+
+    body {
+      margin: 0;
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      font-size: 13px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Loading Overlay */
+    #loadingOverlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(255,255,255,0.85); z-index: 9999;
+      display: none; justify-content: center; align-items: center; flex-direction: column;
+      backdrop-filter: blur(2px);
+    }
+    .spinner {
+      width: 40px; height: 40px; 
+      border: 4px solid #e5e7eb; border-top: 4px solid var(--primary); 
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* Header */
+    header {
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border);
+      height: 54px;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      flex-shrink: 0;
+      justify-content: space-between;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+    .brand { font-weight: 600; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+    .brand span { color: var(--primary); }
+    .status { font-size: 12px; color: var(--text-muted); background: #f9fafb; padding: 4px 12px; border-radius: 12px; border: 1px solid #e5e7eb; }
+
+    /* Layout */
+    .app-body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 400px; 
+      background: var(--bg-panel);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .panel {
+      padding: 20px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .panel-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .panel-title::before { content:''; width:4px; height:4px; background:var(--primary); border-radius:50%; display:block; }
+
+    /* Controls */
+    .form-group { margin-bottom: 12px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;}
+    .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+    
+    label { display: block; font-size: 12px; margin-bottom: 6px; font-weight: 500; color: #374151; }
+    
+    input[type="text"], input[type="number"], select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: var(--font-ui);
+      background: #f9fafb;
+      transition: all 0.2s;
+    }
+    input:focus, select:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+    input:disabled, select:disabled { opacity: 0.6; cursor: not-allowed; background: #f3f4f6; }
+
+    input[type="file"] { font-size: 12px; }
+    input[type="file"]::file-selector-button {
+      border: 1px solid var(--border); background: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-right: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 9px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 13px;
+      transition: all 0.1s;
+      color: var(--text-main);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    button:hover:not(:disabled) { background: #f9fafb; border-color: #9ca3af; }
+    button:active:not(:disabled) { transform: translateY(1px); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; background: #f3f4f6; }
+    
+    button.primary { background: var(--primary); color: white; border-color: var(--primary); }
+    button.primary:hover:not(:disabled) { background: var(--primary-hover); }
+    
+    button.secondary { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
+    button.secondary:hover:not(:disabled) { background: #dcfce7; }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      max-height: 120px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      padding: 8px;
+      border-radius: 6px;
+      background: #f9fafb;
+    }
+    .chk-item { font-size: 12px; display: flex; align-items: center; gap: 4px; color: var(--text-main); }
+
+    /* Workspace */
+    .workspace {
+      flex: 1;
+      background-color: #f3f4f6;
+      background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+      background-size: 20px 20px;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow-y: auto;
+    }
+
+    .vis-card {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      display: flex;
+      gap: 24px;
+      width: 100%;
+      max-width: 900px;
+      align-items: flex-start;
+    }
+
+    .vis-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .vis-header {
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    canvas {
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg-canvas);
+      display: block;
+    }
+    
+    .helper-text { font-size: 11px; color: #9ca3af; margin-top: 4px; line-height: 1.4; }
+    .pixel-count { margin-top: 4px; font-size: 11px; color: #6b7280; font-family: var(--font-mono); text-align: right;}
+  </style>
+</head>
+<body>
+
+<div id="loadingOverlay">
+  <div class="spinner"></div>
+  <div style="margin-top:16px; font-weight:500; color:#374151">Processing...</div>
+</div>
+
+<header>
+  <div class="brand"><span>Digital</span> Image Processing Tool (v1.0)</div>
+  <div class="status" id="statusText">Ready</div>
+</header>
+
+<div class="app-body">
+  
+  <aside class="sidebar">
+    
+    <div class="panel">
+      <div class="panel-title">1. Input & Mode (2D & 3D)</div>
+      <div class="form-row">
+        <div>
+          <label>Mode</label>
+          <select id="mode">
+            <option value="2D">2D Image</option>
+            <option value="3D">3D Stack (Folder)</option>
+          </select>
+        </div>
+        <div>
+          <label>Load</label>
+          <input type="file" id="fileInput" />
+        </div>
+      </div>
+      <button id="btnLoad" class="primary" style="margin-top:8px">Load Source</button>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">2. Processing (2D & 3D)</div>
+      
+      <div class="form-group">
+        <label>Resize Image</label>
+        <div class="form-row triple">
+          <input type="number" id="resizeW" placeholder="Width" />
+          <input type="number" id="resizeH" placeholder="Height" />
+          <button id="btnResize" disabled>Resize</button>
+        </div>
+        <div id="pixelCount" class="pixel-count">Total Pixels: -</div>
+      </div>
+
+      <div class="form-row">
+        <button id="btnGray" disabled>1. Grayscale</button>
+        <button id="btnEq" disabled>2. Equalization</button>
+      </div>
+      <div class="form-group" style="margin-top:12px">
+        <label>Thresholds (0-255, with comma separated)</label>
+        <div class="form-row" style="grid-template-columns: 2fr 1fr;">
+          <input type="text" id="thresholds" placeholder="e.g. 64, 128" />
+          <button id="btnThresh" class="primary" disabled>Apply</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Selected Values (Filters Output)</label>
+        <div id="propCheckboxes" class="checkbox-grid">
+           <div style="grid-column:1/-1; text-align:center; color:#9ca3af; padding:10px;">Apply threshold first</div>
+        </div>
+        <button id="btnCalcProps" class="secondary" style="margin-top:8px" disabled>Show Proportions (Normalized)</button>
+      </div>
+      <button id="btnSaveImg" disabled>Save View As...</button>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">3. Pixel Extraction & Scripts (2D & 3D)</div>
+      <div class="form-row">
+        <div><label>Scale Factor</label><input type="number" id="scalingFactor" value="1.0" /></div>
+        <div>
+          <label>Origin</label>
+          <select id="origin">
+            <option value="center">Center</option>
+            <option value="top-left">Top-Left</option>
+            <option value="bottom-left">Bottom-Left</option>
+            <option value="top-right">Top-Right</option>
+            <option value="bottom-right">Bottom-Right</option>
+          </select>
+        </div>
+      </div>
+    
+      <!-- moved Sample Width here, to the right of Sample Height -->
+      <div class="form-row">
+        <div>
+          <label>Sample Height (m) [For 3D]</label>
+          <input type="number" id="sampleHeight" disabled placeholder="e.g. 0.1" />
+        </div>
+        <div>
+          <label>Sample Width (m)</label>
+          <input type="number" id="sampleWidth" placeholder="e.g. 0.05" />
+        </div>
+      </div>
+    
+      <button id="btnExtractCoords" class="primary" disabled>Extract Coords As...</button>
+      <div class="helper-text" style="margin-bottom:8px">Format: x, y, z, val (for DEM)</div>
+    
+      <div class="form-group">
+        <label>Script Gen (Needs .txt first)</label>
+        <div class="form-row">
+          <select id="codeType">
+            <option value="Ball">PFC Ball</option>
+            <option value="rblock">PFC RBlock</option>
+          </select>
+          <button id="btnGenPy">Save Python As...</button>
+        </div>
+        <button id="btnGenFish" style="margin-top:4px">Save Fish As...</button>
+      </div>
+    </div>
+    
+    <div class="panel" style="border-bottom:none;">
+      <div class="panel-title">4. Mineral Dist. & Size (2D)</div>
+    
+      <!-- Row 1 -->
+      <div class="form-row">
+        <div>
+          <label>Sector Angle (°)</label>
+          <input type="number" id="sectorAngle" value="10" />
+        </div>
+        <div>
+          <label>Harmonics (N)</label>
+          <input type="number" id="harmonics" value="4" />
+        </div>
+      </div>
+    
+      <!-- Row 2: Connectivity (left) + Button (right) -->
+      <div class="form-row">
+        <div>
+          <label>Connectivity</label>
+          <select id="connectivity">
+            <option value="4">4-connected (2D)</option>
+            <option value="8">8-connected (2D)</option>
+            <!-- <option value="6">6-connected (3D)</option> -->
+            <!-- <option value="26">26-connected (3D)</option> -->
+          </select>
+        </div>
+    
+        <div>
+          <!-- invisible label to align with the left column -->
+          <label style="visibility:hidden;">Action</label>
+          <button id="btnRunAnalysis" class="primary" style="width:100%;" disabled>
+            Generate Report As...
+          </button>
+        </div>
+      </div>
+    
+      <div class="helper-text">One row per image. Includes Size & Fourier Coeffs.</div>
+    </div>
+</aside>
+
+  <main class="workspace">
+    <div class="vis-card">
+      <div class="vis-col">
+        <div class="vis-header">Main View</div>
+        <canvas id="imgCanvas"></canvas>
+      </div>
+      <div class="vis-col">
+        <div class="vis-header">Histogram</div>
+        <canvas id="histCanvas"></canvas>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+// ==========================================
+// 1. UTILS
+// ==========================================
+
+class Matrix {
+  constructor(rows, cols, data=null) {
+    this.rows = rows; this.cols = cols;
+    this.data = data || new Float64Array(rows * cols);
+  }
+  static fromArray(arr) { return new Matrix(arr.length, 1, Float64Array.from(arr)); }
+  get(r, c) { return this.data[r * this.cols + c]; }
+  set(r, c, v) { this.data[r * this.cols + c] = v; }
+  transpose() {
+    const res = new Matrix(this.cols, this.rows);
+    for(let i=0; i<this.rows; i++) for(let j=0; j<this.cols; j++) res.set(j, i, this.get(i, j));
+    return res;
+  }
+  multiply(B) {
+    if (this.cols !== B.rows) throw "Matrix dim mismatch";
+    const res = new Matrix(this.rows, B.cols);
+    for(let i=0; i<this.rows; i++) {
+      for(let j=0; j<B.cols; j++) {
+        let sum = 0;
+        for(let k=0; k<this.cols; k++) sum += this.get(i, k) * B.get(k, j);
+        res.set(i, j, sum);
+      }
+    }
+    return res;
+  }
+  invert() { 
+    if(this.rows !== this.cols) throw "Not square";
+    const n = this.rows; const I = new Matrix(n, n); const C = new Matrix(n, n);
+    C.data.set(this.data); for(let i=0; i<n; i++) I.set(i, i, 1);
+    for(let i=0; i<n; i++){
+      let pivot = C.get(i,i);
+      if(Math.abs(pivot) < 1e-9) continue;
+      for(let j=0; j<n; j++) { C.set(i, j, C.get(i,j)/pivot); I.set(i, j, I.get(i,j)/pivot); }
+      for(let k=0; k<n; k++) {
+        if(k !== i) {
+          let factor = C.get(k, i);
+          for(let j=0; j<n; j++) { C.set(k, j, C.get(k,j) - factor * C.get(i,j)); I.set(k, j, I.get(k,j) - factor * I.get(i,j)); }
+        }
+      }
+    }
+    return I;
+  }
+}
+
+async function saveFileAs(blob, defaultName, types) {
+  try {
+    if (window.showSaveFilePicker) {
+      const handle = await window.showSaveFilePicker({ suggestedName: defaultName, types: types });
+      const writable = await handle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+      return true;
+    } else { throw new Error("API not supported"); }
+  } catch (err) {
+    if (err.name === 'AbortError') return;
+    const name = prompt("Save file as:", defaultName);
+    if(name) {
+       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click();
+       setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+    }
+  }
+}
+
+// ==========================================
+// 2. STATE & UI
+// ==========================================
+
+const state = {
+  mode: '2D', files: [], images: [], gray: [], equalized: [], processed: [], currentIndex: 0,
+  lastDataFilename: 'pixel_data.txt'
+};
+
+const els = {
+  // Input
+  mode: document.getElementById('mode'), fileInput: document.getElementById('fileInput'), btnLoad: document.getElementById('btnLoad'),
+  // Proc
+  btnGray: document.getElementById('btnGray'), btnEq: document.getElementById('btnEq'),
+  thresholds: document.getElementById('thresholds'), btnThresh: document.getElementById('btnThresh'),
+  propCheckboxes: document.getElementById('propCheckboxes'), btnSaveImg: document.getElementById('btnSaveImg'),
+  // NEW: Resize & Props
+  resizeW: document.getElementById('resizeW'), resizeH: document.getElementById('resizeH'), 
+  btnResize: document.getElementById('btnResize'), pixelCount: document.getElementById('pixelCount'),
+  btnCalcProps: document.getElementById('btnCalcProps'),
+  // Analysis
+  sampleWidth: document.getElementById('sampleWidth'), // Height removed from here
+  sectorAngle: document.getElementById('sectorAngle'), harmonics: document.getElementById('harmonics'),
+  connectivity: document.getElementById('connectivity'), btnRunAnalysis: document.getElementById('btnRunAnalysis'),
+  // Extraction
+  sampleHeight: document.getElementById('sampleHeight'), // Moved here
+  scalingFactor: document.getElementById('scalingFactor'), origin: document.getElementById('origin'),
+  btnExtractCoords: document.getElementById('btnExtractCoords'), codeType: document.getElementById('codeType'),
+  btnGenPy: document.getElementById('btnGenPy'), btnGenFish: document.getElementById('btnGenFish'),
+  // Canvas
+  loading: document.getElementById('loadingOverlay'), status: document.getElementById('statusText'),
+  imgCanvas: document.getElementById('imgCanvas'), histCanvas: document.getElementById('histCanvas')
+};
+
+const ctxImg = els.imgCanvas.getContext('2d');
+const ctxHist = els.histCanvas.getContext('2d');
+const CANVAS_SIZE = 400;
+els.imgCanvas.width = els.imgCanvas.height = CANVAS_SIZE;
+els.histCanvas.width = els.histCanvas.height = CANVAS_SIZE;
+
+// ==========================================
+// 3. LOGIC & ALGORITHMS
+// ==========================================
+
+function resizeBitmap(bmp, w, h){
+  const c = new OffscreenCanvas(w,h).getContext('2d');
+  c.drawImage(bmp, 0,0, w,h);
+  return c.canvas.transferToImageBitmap();
+}
+
+function calculateMeanSize(width, height, pixelData, targetVal, connectivity, pixelArea) {
+  const n = width * height;
+  const parent = new Int32Array(n).fill(-1);
+  const size = new Int32Array(n).fill(0);
+  function find(i) { let r=i; while(parent[r]!==-1)r=parent[r]; let c=i; while(c!==r){let nx=parent[c];parent[c]=r;c=nx;} return r; }
+  function union(i, j) { let ri=find(i), rj=find(j); if(ri!==rj) { parent[rj]=ri; size[ri]+=size[rj]; size[rj]=0; } }
+
+  for(let i=0; i<n; i++) if(pixelData[i]===targetVal) size[i]=1;
+  const diag = (connectivity===8);
+  for(let y=0; y<height; y++) {
+    for(let x=0; x<width; x++) {
+      const i=y*width+x;
+      if(pixelData[i]!==targetVal) continue;
+      if(x>0 && pixelData[i-1]===targetVal) union(i, i-1);
+      if(y>0 && pixelData[i-width]===targetVal) union(i, i-width);
+      if(diag) {
+        if(x>0 && y>0 && pixelData[i-width-1]===targetVal) union(i, i-width-1);
+        if(x<width-1 && y>0 && pixelData[i-width+1]===targetVal) union(i, i-width+1);
+      }
+    }
+  }
+  let totalArea=0, count=0;
+  for(let i=0; i<n; i++) if(parent[i]===-1 && size[i]>0) { totalArea+=size[i]*pixelArea; count++; }
+  return count===0 ? 0 : (totalArea/count);
+}
+
+function calculateFourierCoeffs(width, height, pixelData, targetVal, sectorDeg, harmonics) {
+  const cx = width/2, cy = height/2;
+  const nBins = Math.ceil(360/sectorDeg);
+  const hist = new Float64Array(nBins).fill(0);
+  let total = 0;
+  for(let y=0; y<height; y++) {
+    for(let x=0; x<width; x++) {
+      if(pixelData[y*width+x]===targetVal) {
+        let dx=x-cx, dy=cy-y; 
+        let ang=Math.atan2(dy,dx)*(180/Math.PI); if(ang<0)ang+=360;
+        hist[Math.min(nBins-1, Math.floor(ang/sectorDeg))]++;
+        total++;
+      }
+    }
+  }
+  if(total===0) return null;
+  const radii=[], anglesRad=[];
+  for(let i=0; i<nBins; i++) {
+    radii.push((hist[i]/total)*100);
+    anglesRad.push(((i*sectorDeg)+(sectorDeg/2))*(Math.PI/180));
+  }
+  const cols=1+2*harmonics;
+  const X=new Matrix(nBins, cols);
+  for(let i=0; i<nBins; i++) {
+    const x=anglesRad[i]; X.set(i,0,1);
+    for(let h=1; h<=harmonics; h++) { X.set(i,(h-1)*2+1, Math.cos(h*x)); X.set(i,(h-1)*2+2, Math.sin(h*x)); }
+  }
+  const Y=Matrix.fromArray(radii);
+  try {
+    const Beta = X.transpose().multiply(X).invert().multiply(X.transpose().multiply(Y));
+    const res = {a0:Beta.get(0,0)};
+    for(let h=1; h<=harmonics; h++) { res[`a${h}`]=Beta.get((h-1)*2+1,0); res[`b${h}`]=Beta.get((h-1)*2+2,0); }
+    return res;
+  } catch(e) { return null; }
+}
+
+// ==========================================
+// 4. DRAWING & HELPERS
+// ==========================================
+function drawEmpty() {
+  ctxImg.fillStyle="#fff"; ctxImg.fillRect(0,0,CANVAS_SIZE,CANVAS_SIZE);
+  ctxImg.fillStyle="#ccc"; ctxImg.font="14px Inter"; ctxImg.textAlign="center"; ctxImg.fillText("No Image", CANVAS_SIZE/2, CANVAS_SIZE/2);
+  ctxHist.fillStyle="#fff"; ctxHist.fillRect(0,0,CANVAS_SIZE,CANVAS_SIZE);
+}
+drawEmpty();
+
+function drawImg(bmp) {
+  const r = Math.min(CANVAS_SIZE/bmp.width, CANVAS_SIZE/bmp.height);
+  const w=bmp.width*r, h=bmp.height*r;
+  ctxImg.clearRect(0,0,CANVAS_SIZE,CANVAS_SIZE);
+  for(let y=0;y<CANVAS_SIZE;y+=10)for(let x=0;x<CANVAS_SIZE;x+=10) {
+    ctxImg.fillStyle=((x/10+y/10)%2===0)?"#f9fafb":"#e5e7eb"; ctxImg.fillRect(x,y,10,10);
+  }
+  ctxImg.drawImage(bmp, (CANVAS_SIZE-w)/2, (CANVAS_SIZE-h)/2, w, h);
+}
+
+
+function drawHist(data) {
+  const m={t:30,r:20,b:40,l:50}, w=CANVAS_SIZE-m.l-m.r, h=CANVAS_SIZE-m.t-m.b;
+  ctxHist.clearRect(0,0,CANVAS_SIZE,CANVAS_SIZE); ctxHist.fillStyle="#fff"; ctxHist.fillRect(0,0,CANVAS_SIZE,CANVAS_SIZE);
+  if(!data) return;
+
+  const bins=new Uint32Array(256); for(let v of data) bins[v]++;
+  const max=Math.max(...bins);
+
+  ctxHist.fillStyle="#374151"; ctxHist.font="bold 12px Inter"; ctxHist.textAlign="center";
+  ctxHist.fillText("Grayscale Distribution", CANVAS_SIZE/2, 20);
+
+  ctxHist.strokeStyle="#e5e7eb"; ctxHist.beginPath();
+  for(let i=1;i<=4;i++){ let y=m.t+h-(h*i/4); ctxHist.moveTo(m.l,y); ctxHist.lineTo(m.l+w,y); } ctxHist.stroke();
+
+  ctxHist.strokeStyle="#9ca3af"; ctxHist.beginPath();
+  ctxHist.moveTo(m.l, m.t); ctxHist.lineTo(m.l, m.t+h); ctxHist.lineTo(m.l+w, m.t+h); ctxHist.stroke();
+
+  ctxHist.fillStyle="#6b7280"; ctxHist.font="10px Inter";
+  ctxHist.textAlign="right";
+  for(let i=0;i<=4;i++) ctxHist.fillText(Math.round(max*i/4), m.l-5, m.t+h-(h*i/4)+3);
+
+  ctxHist.textAlign="center";
+  for(let i=0;i<=4;i++) ctxHist.fillText(Math.round(255*i/4), m.l+(w*i/4), m.t+h+15);
+
+  // ---------- Axis labels (NEW) ----------
+  ctxHist.fillStyle="#374151";
+  ctxHist.font="11px Inter";
+  ctxHist.textAlign="center";
+
+  // X-axis label
+  ctxHist.fillText("Pixel Grayscale Level", m.l + w/2, m.t + h + 33);
+
+  // Y-axis label (rotated)
+  ctxHist.save();
+  ctxHist.translate(m.l - 38, m.t + h/2);
+  ctxHist.rotate(-Math.PI/2);
+  ctxHist.textAlign="center";
+  ctxHist.fillText("Count", 0, 0);
+  ctxHist.restore();
+  // --------------------------------------
+
+  ctxHist.fillStyle="#2563eb"; const bw=w/256;
+  for(let i=0;i<256;i++) {
+    const bh=(bins[i]/max)*h;
+    ctxHist.fillRect(m.l+i*bw, m.t+h-bh, Math.max(0.6, bw), bh);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+function updatePixelCount(img) {
+  if(!img) els.pixelCount.innerText = "Total Pixels: -";
+  else els.pixelCount.innerText = `Total Pixels: ${img.width * img.height}`;
+}
+
+function toggleLoading(show) { els.loading.style.display = show ? 'flex' : 'none'; }
+function setStatus(msg) { els.status.innerText = msg; }
+
+// ==========================================
+// 5. EVENT HANDLERS
+// ==========================================
+
+els.mode.addEventListener('change', () => {
+  state.mode = els.mode.value;
+  // If 3D, allow directory selection
+  if(state.mode==='3D') {
+    els.fileInput.setAttribute('webkitdirectory', '');
+    els.fileInput.setAttribute('directory', '');
+    els.sampleHeight.disabled = false;
+  } else {
+    els.fileInput.removeAttribute('webkitdirectory');
+    els.fileInput.removeAttribute('directory');
+    els.sampleHeight.disabled = true;
+  }
+  
+  els.connectivity.innerHTML = state.mode==='2D' ? 
+    `<option value="4">4-connected (2D)</option><option value="8">8-connected (2D)</option>` : 
+    `<option value="6">6-connected (3D)</option><option value="26">26-connected (3D)</option>`;
+  setStatus(`Mode: ${state.mode}`);
+});
+
+els.btnLoad.addEventListener('click', async () => {
+  if(!els.fileInput.files.length) return alert("Select files/folder");
+  toggleLoading(true);
+  try {
+    // Filter for image files only
+    const validExts = ['.png', '.jpg', '.jpeg', '.bmp'];
+    let files = Array.from(els.fileInput.files).filter(f => {
+      const ext = f.name.substring(f.name.lastIndexOf('.')).toLowerCase();
+      return validExts.includes(ext);
+    });
+    
+    // Sort by natural order (numeric in filename)
+    const naturalCollator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+    files.sort((a,b) => naturalCollator.compare(a.name, b.name));
+    
+    if(state.mode==='2D' && files.length > 1) files = [files[0]];
+    
+    state.files = files;
+    state.images = await Promise.all(files.map(f => createImageBitmap(f)));
+    state.gray = state.images.map(()=>null); 
+    state.equalized = state.images.map(()=>null); 
+    state.processed = state.images.map(()=>null);
+    
+    els.btnGray.disabled=false; els.btnEq.disabled=true; els.btnThresh.disabled=true;
+    els.btnRunAnalysis.disabled=true; els.btnExtractCoords.disabled=true;
+    els.btnResize.disabled=false; 
+    
+    drawImg(state.images[0]); drawHist([]); updatePixelCount(state.images[0]);
+    setStatus(`Loaded ${files.length} images.`);
+  } catch(e) { alert("Load error: " + e); }
+  toggleLoading(false);
+});
+
+// Resize Logic
+els.btnResize.addEventListener('click', async () => {
+  const w = parseInt(els.resizeW.value);
+  const h = parseInt(els.resizeH.value);
+  if(!w || !h) return alert("Enter valid Width and Height");
+  
+  toggleLoading(true);
+  try {
+    state.images = await Promise.all(state.images.map(img => resizeBitmap(img, w, h)));
+    state.gray.fill(null); state.equalized.fill(null); state.processed.fill(null);
+    drawImg(state.images[0]); drawHist([]); updatePixelCount(state.images[0]);
+    setStatus(`Resized to ${w}x${h}`);
+  } catch(e) { alert("Resize failed"); }
+  toggleLoading(false);
+});
+
+els.btnGray.addEventListener('click', () => {
+  toggleLoading(true);
+  setTimeout(() => {
+    state.gray = state.images.map(bmp => {
+      const c = new OffscreenCanvas(bmp.width, bmp.height).getContext('2d');
+      c.drawImage(bmp,0,0);
+      const d = c.getImageData(0,0,bmp.width,bmp.height).data;
+      const g = new Uint8ClampedArray(bmp.width*bmp.height);
+      for(let i=0,j=0;i<d.length;i+=4,j++) g[j] = Math.round(0.299*d[i]+0.587*d[i+1]+0.114*d[i+2]);
+      return g;
+    });
+    const w=state.images[0].width, h=state.images[0].height;
+    const d=new ImageData(w,h); const g=state.gray[0];
+    for(let i=0;i<g.length;i++) { d.data[i*4]=g[i];d.data[i*4+1]=g[i];d.data[i*4+2]=g[i];d.data[i*4+3]=255; }
+    createImageBitmap(d).then(b=>drawImg(b)); drawHist(g);
+    els.btnEq.disabled=false; els.btnThresh.disabled=false;
+    toggleLoading(false);
+  }, 50);
+});
+
+els.btnEq.addEventListener('click', () => {
+  if(!state.gray[0]) return;
+  toggleLoading(true);
+  setTimeout(() => {
+    const hist=new Uint32Array(256); for(let v of state.gray[0]) hist[v]++;
+    const cdf=new Float64Array(256); cdf[0]=hist[0]; for(let i=1;i<256;i++) cdf[i]=cdf[i-1]+hist[i];
+    const cdfMin=cdf.find(x=>x>0), total=state.gray[0].length;
+    state.equalized = state.gray.map(arr => {
+      const out=new Uint8ClampedArray(arr.length);
+      for(let i=0;i<arr.length;i++) out[i]=Math.round((cdf[arr[i]]-cdfMin)/(total-cdfMin)*255);
+      return out;
+    });
+    const w=state.images[0].width, h=state.images[0].height;
+    const d=new ImageData(w,h); const e=state.equalized[0];
+    for(let i=0;i<e.length;i++) { d.data[i*4]=e[i];d.data[i*4+1]=e[i];d.data[i*4+2]=e[i];d.data[i*4+3]=255; }
+    createImageBitmap(d).then(b=>drawImg(b)); drawHist(e);
+    toggleLoading(false);
+  }, 50);
+});
+
+els.btnThresh.addEventListener('click', () => {
+  const src = state.equalized[0] ? state.equalized : state.gray;
+  if(!src[0]) return;
+  const thStr = els.thresholds.value;
+  if(!thStr) return alert("Enter thresholds");
+  const ths = thStr.split(',').map(s=>parseInt(s.trim())).filter(n=>!isNaN(n)).sort((a,b)=>a-b);
+  toggleLoading(true);
+  setTimeout(() => {
+    state.processed = src.map(arr => {
+      const out=new Uint8ClampedArray(arr.length);
+      for(let i=0;i<arr.length;i++){
+        let v=arr[i]; if(v===255){out[i]=255;continue;}
+        let val=255, low=0;
+        for(let t of ths){ if(v>=low && v<t){val=t;break;} low=t; }
+        out[i]=val;
+      }
+      return out;
+    });
+    const unique = new Set();
+    // Sample first image for simplicity
+    for(let v of state.processed[0]) unique.add(v);
+    els.propCheckboxes.innerHTML='';
+    Array.from(unique).sort((a,b)=>a-b).forEach(v => {
+      els.propCheckboxes.innerHTML+=`<div class="chk-item"><input type="checkbox" value="${v}" checked> ${v}</div>`;
+    });
+    const w=state.images[0].width, h=state.images[0].height;
+    const d=new ImageData(w,h); const p=state.processed[0];
+    for(let i=0;i<p.length;i++) { const v=p[i];d.data[i*4]=v;d.data[i*4+1]=v;d.data[i*4+2]=v;d.data[i*4+3]=255; }
+    createImageBitmap(d).then(b=>drawImg(b)); drawHist(p);
+    els.btnRunAnalysis.disabled=false; els.btnSaveImg.disabled=false; els.btnExtractCoords.disabled=false;
+    els.btnCalcProps.disabled=false; 
+    toggleLoading(false);
+  }, 50);
+});
+
+// Display Proportions Logic (Relative to Selected Values)
+els.btnCalcProps.addEventListener('click', () => {
+  const vals = Array.from(els.propCheckboxes.querySelectorAll('input:checked'))
+                    .map(i=>parseInt(i.value)).sort((a,b)=>a-b);
+  if(!vals.length) return alert("Select values first");
+  
+  toggleLoading(true);
+  setTimeout(() => {
+    let totalSelectedPixels = 0;
+    const counts = {};
+    vals.forEach(v => counts[v] = 0);
+    
+    // Iterate all processed images (2D or 3D stack)
+    state.processed.forEach(arr => {
+      for(let v of arr) {
+        if(counts.hasOwnProperty(v)) {
+          counts[v]++;
+          totalSelectedPixels++; 
+        }
+      }
+    });
+    
+    let msg = `Stack Analysis (${state.processed.length} slices):\n`;
+    msg += `Total Selected Pixels: ${totalSelectedPixels}\n\n`;
+    vals.forEach(v => {
+      const c = counts[v];
+      const p = totalSelectedPixels > 0 ? ((c / totalSelectedPixels) * 100).toFixed(4) : 0;
+      msg += `Val ${v}: ${c} px (${p}%)\n`;
+    });
+    alert(msg);
+    toggleLoading(false);
+  }, 20);
+});
+
+els.btnRunAnalysis.addEventListener('click', () => {
+  const vals = Array.from(els.propCheckboxes.querySelectorAll('input:checked'))
+                    .map(i=>parseInt(i.value))
+                    .sort((a,b) => a-b);
+  
+  if(!vals.length) return alert("Select values");
+  const sW = parseFloat(els.sampleWidth.value);
+  if(!sW) return alert("Enter Sample Width");
+  
+  const w = state.images[0].width, h = state.images[0].height;
+  const pxArea = (sW/w)**2;
+  const secDeg = parseFloat(els.sectorAngle.value)||10;
+  const harms = parseInt(els.harmonics.value)||4;
+  const conn = parseInt(els.connectivity.value);
+  
+  toggleLoading(true);
+  setTimeout(async () => {
+    let header = ["Image Name"];
+    vals.forEach(val => {
+      header.push(`${val}_MeanSize(m2)`);
+      header.push(`${val}_a0`);
+      for(let i=1; i<=harms; i++) { header.push(`${val}_a${i}`); header.push(`${val}_b${i}`); }
+    });
+    let csv = header.join(",") + "\r\n";
+    
+    state.processed.forEach((arr, idx) => {
+      const name = state.files[idx].name;
+      let row = [name];
+      vals.forEach(val => {
+        const sz = calculateMeanSize(w, h, arr, val, conn, pxArea);
+        const four = calculateFourierCoeffs(w, h, arr, val, secDeg, harms);
+        row.push(sz.toExponential(4));
+        if(four) {
+          row.push(four.a0.toFixed(5));
+          for(let i=1; i<=harms; i++) { row.push(four[`a${i}`].toFixed(5)); row.push(four[`b${i}`].toFixed(5)); }
+        } else {
+          for(let k=0; k < 1 + harms*2; k++) row.push("");
+        }
+      });
+      csv += row.join(",") + "\r\n";
+    });
+    
+    const blob = new Blob([csv], {type: 'text/csv;charset=utf-8'});
+    await saveFileAs(blob, "analysis_report.csv", [{description: 'CSV File', accept: {'text/csv': ['.csv']}}]);
+    
+    toggleLoading(false);
+  }, 100);
+});
+
+// EXTRACT COORDS with Z-Logic
+els.btnExtractCoords.addEventListener('click', async () => {
+  if(!state.processed[0]) return;
+  const vals = Array.from(els.propCheckboxes.querySelectorAll('input:checked')).map(i=>parseInt(i.value));
+  if(!vals.length) return alert("Select values");
+  const sW = parseFloat(els.sampleWidth.value);
+  if(!sW) return alert("Enter Sample Width (in Analysis Panel)");
+  
+  const w = state.images[0].width, h = state.images[0].height;
+  const scale = parseFloat(els.scalingFactor.value) || 1.0;
+  const pxW = (sW/w) * scale;
+  
+  // Z-Step Logic
+  let zStep = 0;
+  if(state.mode === '3D') {
+    const sH = parseFloat(els.sampleHeight.value);
+    if(!sH) return alert("Enter Sample Height for 3D");
+    // Z spacing = SampleHeight / NumImages (or NumImages-1 depending on interpretation, usually simple division for voxel height)
+    zStep = (sH / state.processed.length) * scale;
+  }
+  
+  const origin = els.origin.value;
+  let txt = "pos-x(m), pos-y(m), pos-z(m), gray_value\n";
+  
+  toggleLoading(true);
+  setTimeout(async () => {
+    state.processed.forEach((arr, zIdx) => {
+      // Z starts at 0, increments by step
+      let z = zIdx * zStep;
+      
+      for(let y=0; y<h; y++) {
+        for(let x=0; x<w; x++) {
+          const v = arr[y*w+x];
+          if(vals.includes(v)) {
+            let px = x * pxW;
+            let py = y * pxW;
+            if (origin === 'center') { px -= (w/2)*pxW; py -= (h/2)*pxW; py = -py; }
+            else if (origin === 'top-right') { px -= w*pxW; }
+            else if (origin === 'bottom-left') { py -= h*pxW; py = -py; }
+            else if (origin === 'bottom-right') { px -= w*pxW; py -= h*pxW; py = -py; }
+            
+            txt += `${px.toFixed(4)}, ${py.toFixed(4)}, ${z.toFixed(4)}, ${v}\n`;
+          }
+        }
+      }
+    });
+    
+    state.lastDataFilename = "pixel_data.txt";
+    const blob = new Blob([txt], {type: 'text/plain'});
+    await saveFileAs(blob, "pixel_data.txt", [{description: 'Text File', accept: {'text/plain': ['.txt']}}]);
+    toggleLoading(false);
+  }, 50);
+});
+
+// Script Gen
+els.btnGenPy.addEventListener('click', async () => {
+  const type = els.codeType.value;
+  const fn = state.lastDataFilename;
+  let code = "";
+  if(type === 'Ball') {
+    code = `import itasca as it\nfrom itasca import ballarray as ba\nimport numpy as np\nit.command("model new")\ndata = np.loadtxt("${fn}", delimiter=",", skiprows=1)\nfor row in data:\n  ba.create(1, [row[0], row[1], row[2]])\n  # Set extra logic here based on row[3]`;
+  } else {
+    code = `import itasca as it\nfrom itasca import rblock as rblock_module\n# ... KDTree Logic ...\n# Load ${fn} and Group rblocks`;
+  }
+  const blob = new Blob([code], {type: 'text/x-python'});
+  await saveFileAs(blob, `script_${type}.py`, [{description: 'Python Script', accept: {'text/x-python': ['.py']}}]);
+});
+
+els.btnGenFish.addEventListener('click', async () => {
+  const code = `model new\n; Load ${state.lastDataFilename}\n; Loop and create balls`;
+  const blob = new Blob([code], {type: 'text/plain'});
+  await saveFileAs(blob, "script.fish", [{description: 'Fish Script', accept: {'text/plain': ['.fish', '.txt']}}]);
+});
+
+els.btnSaveImg.addEventListener('click', () => {
+  if(!state.processed[0]) return;
+  const w = state.images[0].width, h = state.images[0].height;
+  const cvs = new OffscreenCanvas(w,h); const c = cvs.getContext('2d');
+  const d = c.createImageData(w,h); const arr = state.processed[state.currentIndex];
+  for(let i=0; i<arr.length; i++) { const v=arr[i]; d.data[i*4]=v; d.data[i*4+1]=v; d.data[i*4+2]=v; d.data[i*4+3]=255; }
+  c.putImageData(d,0,0);
+  cvs.convertToBlob().then(async blob => {
+    await saveFileAs(blob, "processed.png", [{description: 'PNG Image', accept: {'image/png': ['.png']}}]);
+  });
+});
+</script>
+</body>
+</html>
