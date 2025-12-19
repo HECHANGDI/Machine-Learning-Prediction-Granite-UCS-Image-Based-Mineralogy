@@ -33,7 +33,8 @@ Open the DIP Tool_V1.0.html with browser. <br>
 
 
 
-# Effect of the hyperparameter optimization techniques
+**d. Effect of the hyperparameter optimization techniques**
+<img width="800" height="700" alt="image" src="https://github.com/user-attachments/assets/1427a868-c3c1-42ac-a215-e0fe8b900125" />
 
 
 # Please cite the following papers while using the follwing datasets:
