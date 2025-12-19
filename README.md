@@ -37,7 +37,8 @@ Open the DIP Tool_V1.0.html with browser. <br>
 <img width="800" height="700" alt="image" src="https://github.com/user-attachments/assets/1427a868-c3c1-42ac-a215-e0fe8b900125" />
 
 
-# Please cite the following papers while using the follwing datasets:
+# References
+**Please kindly cite the following papers while using the follwing datasets:** <br>
 1. He, C., Mishra, B., & Potyondy, D. O. (2026). Impact of mineralogical features on the mechanical behaviors of granite: A study using physically informed 3D microstructural model. International Journal of Rock Mechanics and Mining Sciences, 197, 106355. <br>
 @article{he2026impact,<br>
   title={Impact of mineralogical features on the mechanical behaviors of granite: A study using physically informed 3D microstructural model}, <br>
