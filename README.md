@@ -38,7 +38,7 @@ Open the DIP Tool_V1.0.html with browser. <br>
 
 
 # Please cite the following papers while using the follwing datasets:
-1. He, C., Mishra, B., & Potyondy, D. O. (2026). Impact of mineralogical features on the mechanical behaviors of granite: A study using physically informed 3D microstructural model. International Journal of Rock Mechanics and Mining Sciences, 197, 106355.
+1. He, C., Mishra, B., & Potyondy, D. O. (2026). Impact of mineralogical features on the mechanical behaviors of granite: A study using physically informed 3D microstructural model. International Journal of Rock Mechanics and Mining Sciences, 197, 106355. <br>
 @article{he2026impact,<br>
   title={Impact of mineralogical features on the mechanical behaviors of granite: A study using physically informed 3D microstructural model}, <br>
   author={He, Changdi and Mishra, Brijes and Potyondy, David Oskar},<br>
