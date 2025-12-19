@@ -16,16 +16,20 @@ Open the DIP Tool_V1.0.html with browser. <br>
 
 # Training the Optuna-XGBoost model using the features (without SHAP-based feature selection)
 
+<img width="800" height="200" alt="image" src="https://github.com/user-attachments/assets/1b48a02e-4722-41b0-99c8-b5bbb602bf68" />
 
 
 
 # Training the Optuna-XGBoost model using the features (with SHAP-based feature selection for Cases 4 -- 7)
 
+<img width="800" height="200" alt="image" src="https://github.com/user-attachments/assets/b41a0686-6b61-49d0-9e27-55f61a26ed65" />
 
 
 
 
-# Roubstness verification (using Case 7 as an example)
+# Roubstness verification (using Cases 4 and 7 as an example)
+
+<img width="800" height="700" alt="image" src="https://github.com/user-attachments/assets/b40778a3-9095-4df6-a79b-d29719f19aa6" />
 
 
 
