@@ -10,7 +10,7 @@ Find the images in the folder of: Granite_Images_G1-G126 <br>
 <img width="800" height="700" alt="image" src="https://github.com/user-attachments/assets/da2c3bc3-7dfa-4d57-b6f5-46f5ec677211" />
 
 # DIP Web Tool
-Open the DIP Tool_V1.0.html with browser. <br>
+Download and open "DIP Tool_V1.0.html" with browser. <br>
 <img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/7a71a78f-c634-4cef-b97d-50b00cfaade7" />
 
 
