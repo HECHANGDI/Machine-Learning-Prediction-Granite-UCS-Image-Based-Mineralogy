@@ -7,10 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-  
+
   <style>
     :root {
-      /* Theme Variables */
       --bg-app: #f3f4f6;
       --bg-panel: #ffffff;
       --bg-canvas: #ffffff;
@@ -39,13 +38,11 @@
       overflow: hidden;
     }
 
-    /* Scrollbars */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-    /* Loading Overlay */
     #loadingOverlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(255,255,255,0.85); z-index: 9999;
@@ -53,13 +50,12 @@
       backdrop-filter: blur(2px);
     }
     .spinner {
-      width: 40px; height: 40px; 
-      border: 4px solid #e5e7eb; border-top: 4px solid var(--primary); 
+      width: 40px; height: 40px;
+      border: 4px solid #e5e7eb; border-top: 4px solid var(--primary);
       border-radius: 50%; animation: spin 0.8s linear infinite;
     }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* Header */
     header {
       background: var(--bg-panel);
       border-bottom: 1px solid var(--border);
@@ -75,16 +71,14 @@
     .brand span { color: var(--primary); }
     .status { font-size: 12px; color: var(--text-muted); background: #f9fafb; padding: 4px 12px; border-radius: 12px; border: 1px solid #e5e7eb; }
 
-    /* Layout */
     .app-body {
       display: flex;
       flex: 1;
       overflow: hidden;
     }
 
-    /* Sidebar */
     .sidebar {
-      width: 400px; 
+      width: 400px;
       background: var(--bg-panel);
       border-right: 1px solid var(--border);
       overflow-y: auto;
@@ -111,13 +105,12 @@
     }
     .panel-title::before { content:''; width:4px; height:4px; background:var(--primary); border-radius:50%; display:block; }
 
-    /* Controls */
     .form-group { margin-bottom: 12px; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;}
     .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
-    
+
     label { display: block; font-size: 12px; margin-bottom: 6px; font-weight: 500; color: #374151; }
-    
+
     input[type="text"], input[type="number"], select {
       width: 100%;
       padding: 8px 10px;
@@ -152,10 +145,10 @@
     button:hover:not(:disabled) { background: #f9fafb; border-color: #9ca3af; }
     button:active:not(:disabled) { transform: translateY(1px); }
     button:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; background: #f3f4f6; }
-    
+
     button.primary { background: var(--primary); color: white; border-color: var(--primary); }
     button.primary:hover:not(:disabled) { background: var(--primary-hover); }
-    
+
     button.secondary { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
     button.secondary:hover:not(:disabled) { background: #dcfce7; }
 
@@ -172,7 +165,6 @@
     }
     .chk-item { font-size: 12px; display: flex; align-items: center; gap: 4px; color: var(--text-main); }
 
-    /* Workspace */
     .workspace {
       flex: 1;
       background-color: #f3f4f6;
@@ -222,11 +214,12 @@
       background: var(--bg-canvas);
       display: block;
     }
-    
+
     .helper-text { font-size: 11px; color: #9ca3af; margin-top: 4px; line-height: 1.4; }
     .pixel-count { margin-top: 4px; font-size: 11px; color: #6b7280; font-family: var(--font-mono); text-align: right;}
   </style>
 </head>
+
 <body>
 
 <div id="loadingOverlay">
@@ -240,9 +233,9 @@
 </header>
 
 <div class="app-body">
-  
+
   <aside class="sidebar">
-    
+
     <div class="panel">
       <div class="panel-title">1. Input & Mode (2D & 3D)</div>
       <div class="form-row">
@@ -263,7 +256,7 @@
 
     <div class="panel">
       <div class="panel-title">2. Processing (2D & 3D)</div>
-      
+
       <div class="form-group">
         <label>Resize Image</label>
         <div class="form-row triple">
@@ -288,7 +281,7 @@
       <div class="form-group">
         <label>Selected Values (Filters Output)</label>
         <div id="propCheckboxes" class="checkbox-grid">
-           <div style="grid-column:1/-1; text-align:center; color:#9ca3af; padding:10px;">Apply threshold first</div>
+          <div style="grid-column:1/-1; text-align:center; color:#9ca3af; padding:10px;">Apply threshold first</div>
         </div>
         <button id="btnCalcProps" class="secondary" style="margin-top:8px" disabled>Show Proportions (Normalized)</button>
       </div>
@@ -310,8 +303,7 @@
           </select>
         </div>
       </div>
-    
-      <!-- moved Sample Width here, to the right of Sample Height -->
+
       <div class="form-row">
         <div>
           <label>Sample Height (m) [For 3D]</label>
@@ -322,10 +314,10 @@
           <input type="number" id="sampleWidth" placeholder="e.g. 0.05" />
         </div>
       </div>
-    
+
       <button id="btnExtractCoords" class="primary" disabled>Extract Coords As...</button>
       <div class="helper-text" style="margin-bottom:8px">Format: x, y, z, val (for DEM)</div>
-    
+
       <div class="form-group">
         <label>Script Gen (Needs .txt first)</label>
         <div class="form-row">
@@ -338,11 +330,10 @@
         <button id="btnGenFish" style="margin-top:4px">Save Fish As...</button>
       </div>
     </div>
-    
+
     <div class="panel" style="border-bottom:none;">
       <div class="panel-title">4. Mineral Dist. & Size (2D)</div>
-    
-      <!-- Row 1 -->
+
       <div class="form-row">
         <div>
           <label>Sector Angle (°)</label>
@@ -353,31 +344,27 @@
           <input type="number" id="harmonics" value="4" />
         </div>
       </div>
-    
-      <!-- Row 2: Connectivity (left) + Button (right) -->
+
       <div class="form-row">
         <div>
           <label>Connectivity</label>
           <select id="connectivity">
             <option value="4">4-connected (2D)</option>
             <option value="8">8-connected (2D)</option>
-            <!-- <option value="6">6-connected (3D)</option> -->
-            <!-- <option value="26">26-connected (3D)</option> -->
           </select>
         </div>
-    
+
         <div>
-          <!-- invisible label to align with the left column -->
           <label style="visibility:hidden;">Action</label>
           <button id="btnRunAnalysis" class="primary" style="width:100%;" disabled>
             Generate Report As...
           </button>
         </div>
       </div>
-    
+
       <div class="helper-text">One row per image. Includes Size & Fourier Coeffs.</div>
     </div>
-</aside>
+  </aside>
 
   <main class="workspace">
     <div class="vis-card">
@@ -424,7 +411,7 @@ class Matrix {
     }
     return res;
   }
-  invert() { 
+  invert() {
     if(this.rows !== this.cols) throw "Not square";
     const n = this.rows; const I = new Matrix(n, n); const C = new Matrix(n, n);
     C.data.set(this.data); for(let i=0; i<n; i++) I.set(i, i, 1);
@@ -443,22 +430,35 @@ class Matrix {
   }
 }
 
+/**
+ * Save a file and return the actual saved filename (or null if cancelled).
+ */
 async function saveFileAs(blob, defaultName, types) {
   try {
     if (window.showSaveFilePicker) {
-      const handle = await window.showSaveFilePicker({ suggestedName: defaultName, types: types });
+      const handle = await window.showSaveFilePicker({
+        suggestedName: defaultName,
+        types: types
+      });
       const writable = await handle.createWritable();
       await writable.write(blob);
       await writable.close();
-      return true;
-    } else { throw new Error("API not supported"); }
-  } catch (err) {
-    if (err.name === 'AbortError') return;
-    const name = prompt("Save file as:", defaultName);
-    if(name) {
-       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click();
-       setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+      return handle?.name || defaultName;
+    } else {
+      throw new Error("File System Access API not supported");
     }
+  } catch (err) {
+    if (err && err.name === 'AbortError') return null;
+
+    const name = prompt("Save file as:", defaultName);
+    if(!name) return null;
+
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+    return name;
   }
 }
 
@@ -468,7 +468,12 @@ async function saveFileAs(blob, defaultName, types) {
 
 const state = {
   mode: '2D', files: [], images: [], gray: [], equalized: [], processed: [], currentIndex: 0,
-  lastDataFilename: 'pixel_data.txt'
+  lastDataFilename: 'pixel_data.txt',
+
+  // cached values for script generation
+  lastPxW: null,                 // A2
+  lastSelectedGrayValues: [],     // A3..An
+  lastPixelCount: null            // A1: exported rows (excluding header)
 };
 
 const els = {
@@ -478,16 +483,16 @@ const els = {
   btnGray: document.getElementById('btnGray'), btnEq: document.getElementById('btnEq'),
   thresholds: document.getElementById('thresholds'), btnThresh: document.getElementById('btnThresh'),
   propCheckboxes: document.getElementById('propCheckboxes'), btnSaveImg: document.getElementById('btnSaveImg'),
-  // NEW: Resize & Props
-  resizeW: document.getElementById('resizeW'), resizeH: document.getElementById('resizeH'), 
+  // Resize & Props
+  resizeW: document.getElementById('resizeW'), resizeH: document.getElementById('resizeH'),
   btnResize: document.getElementById('btnResize'), pixelCount: document.getElementById('pixelCount'),
   btnCalcProps: document.getElementById('btnCalcProps'),
   // Analysis
-  sampleWidth: document.getElementById('sampleWidth'), // Height removed from here
+  sampleWidth: document.getElementById('sampleWidth'),
   sectorAngle: document.getElementById('sectorAngle'), harmonics: document.getElementById('harmonics'),
   connectivity: document.getElementById('connectivity'), btnRunAnalysis: document.getElementById('btnRunAnalysis'),
   // Extraction
-  sampleHeight: document.getElementById('sampleHeight'), // Moved here
+  sampleHeight: document.getElementById('sampleHeight'),
   scalingFactor: document.getElementById('scalingFactor'), origin: document.getElementById('origin'),
   btnExtractCoords: document.getElementById('btnExtractCoords'), codeType: document.getElementById('codeType'),
   btnGenPy: document.getElementById('btnGenPy'), btnGenFish: document.getElementById('btnGenFish'),
@@ -546,7 +551,7 @@ function calculateFourierCoeffs(width, height, pixelData, targetVal, sectorDeg, 
   for(let y=0; y<height; y++) {
     for(let x=0; x<width; x++) {
       if(pixelData[y*width+x]===targetVal) {
-        let dx=x-cx, dy=cy-y; 
+        let dx=x-cx, dy=cy-y;
         let ang=Math.atan2(dy,dx)*(180/Math.PI); if(ang<0)ang+=360;
         hist[Math.min(nBins-1, Math.floor(ang/sectorDeg))]++;
         total++;
@@ -594,7 +599,6 @@ function drawImg(bmp) {
   ctxImg.drawImage(bmp, (CANVAS_SIZE-w)/2, (CANVAS_SIZE-h)/2, w, h);
 }
 
-
 function drawHist(data) {
   const m={t:30,r:20,b:40,l:50}, w=CANVAS_SIZE-m.l-m.r, h=CANVAS_SIZE-m.t-m.b;
   ctxHist.clearRect(0,0,CANVAS_SIZE,CANVAS_SIZE); ctxHist.fillStyle="#fff"; ctxHist.fillRect(0,0,CANVAS_SIZE,CANVAS_SIZE);
@@ -619,22 +623,17 @@ function drawHist(data) {
   ctxHist.textAlign="center";
   for(let i=0;i<=4;i++) ctxHist.fillText(Math.round(255*i/4), m.l+(w*i/4), m.t+h+15);
 
-  // ---------- Axis labels (NEW) ----------
   ctxHist.fillStyle="#374151";
   ctxHist.font="11px Inter";
   ctxHist.textAlign="center";
-
-  // X-axis label
   ctxHist.fillText("Pixel Grayscale Level", m.l + w/2, m.t + h + 33);
 
-  // Y-axis label (rotated)
   ctxHist.save();
   ctxHist.translate(m.l - 38, m.t + h/2);
   ctxHist.rotate(-Math.PI/2);
   ctxHist.textAlign="center";
   ctxHist.fillText("Count", 0, 0);
   ctxHist.restore();
-  // --------------------------------------
 
   ctxHist.fillStyle="#2563eb"; const bw=w/256;
   for(let i=0;i<256;i++) {
@@ -642,18 +641,6 @@ function drawHist(data) {
     ctxHist.fillRect(m.l+i*bw, m.t+h-bh, Math.max(0.6, bw), bh);
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 function updatePixelCount(img) {
   if(!img) els.pixelCount.innerText = "Total Pixels: -";
@@ -669,7 +656,6 @@ function setStatus(msg) { els.status.innerText = msg; }
 
 els.mode.addEventListener('change', () => {
   state.mode = els.mode.value;
-  // If 3D, allow directory selection
   if(state.mode==='3D') {
     els.fileInput.setAttribute('webkitdirectory', '');
     els.fileInput.setAttribute('directory', '');
@@ -679,9 +665,9 @@ els.mode.addEventListener('change', () => {
     els.fileInput.removeAttribute('directory');
     els.sampleHeight.disabled = true;
   }
-  
-  els.connectivity.innerHTML = state.mode==='2D' ? 
-    `<option value="4">4-connected (2D)</option><option value="8">8-connected (2D)</option>` : 
+
+  els.connectivity.innerHTML = state.mode==='2D' ?
+    `<option value="4">4-connected (2D)</option><option value="8">8-connected (2D)</option>` :
     `<option value="6">6-connected (3D)</option><option value="26">26-connected (3D)</option>`;
   setStatus(`Mode: ${state.mode}`);
 });
@@ -690,41 +676,38 @@ els.btnLoad.addEventListener('click', async () => {
   if(!els.fileInput.files.length) return alert("Select files/folder");
   toggleLoading(true);
   try {
-    // Filter for image files only
     const validExts = ['.png', '.jpg', '.jpeg', '.bmp'];
     let files = Array.from(els.fileInput.files).filter(f => {
       const ext = f.name.substring(f.name.lastIndexOf('.')).toLowerCase();
       return validExts.includes(ext);
     });
-    
-    // Sort by natural order (numeric in filename)
+
     const naturalCollator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
     files.sort((a,b) => naturalCollator.compare(a.name, b.name));
-    
+
     if(state.mode==='2D' && files.length > 1) files = [files[0]];
-    
+
     state.files = files;
     state.images = await Promise.all(files.map(f => createImageBitmap(f)));
-    state.gray = state.images.map(()=>null); 
-    state.equalized = state.images.map(()=>null); 
+    state.gray = state.images.map(()=>null);
+    state.equalized = state.images.map(()=>null);
     state.processed = state.images.map(()=>null);
-    
+
     els.btnGray.disabled=false; els.btnEq.disabled=true; els.btnThresh.disabled=true;
     els.btnRunAnalysis.disabled=true; els.btnExtractCoords.disabled=true;
-    els.btnResize.disabled=false; 
-    
+    els.btnResize.disabled=false;
+
     drawImg(state.images[0]); drawHist([]); updatePixelCount(state.images[0]);
     setStatus(`Loaded ${files.length} images.`);
   } catch(e) { alert("Load error: " + e); }
   toggleLoading(false);
 });
 
-// Resize Logic
 els.btnResize.addEventListener('click', async () => {
   const w = parseInt(els.resizeW.value);
   const h = parseInt(els.resizeH.value);
   if(!w || !h) return alert("Enter valid Width and Height");
-  
+
   toggleLoading(true);
   try {
     state.images = await Promise.all(state.images.map(img => resizeBitmap(img, w, h)));
@@ -794,7 +777,6 @@ els.btnThresh.addEventListener('click', () => {
       return out;
     });
     const unique = new Set();
-    // Sample first image for simplicity
     for(let v of state.processed[0]) unique.add(v);
     els.propCheckboxes.innerHTML='';
     Array.from(unique).sort((a,b)=>a-b).forEach(v => {
@@ -805,33 +787,31 @@ els.btnThresh.addEventListener('click', () => {
     for(let i=0;i<p.length;i++) { const v=p[i];d.data[i*4]=v;d.data[i*4+1]=v;d.data[i*4+2]=v;d.data[i*4+3]=255; }
     createImageBitmap(d).then(b=>drawImg(b)); drawHist(p);
     els.btnRunAnalysis.disabled=false; els.btnSaveImg.disabled=false; els.btnExtractCoords.disabled=false;
-    els.btnCalcProps.disabled=false; 
+    els.btnCalcProps.disabled=false;
     toggleLoading(false);
   }, 50);
 });
 
-// Display Proportions Logic (Relative to Selected Values)
 els.btnCalcProps.addEventListener('click', () => {
   const vals = Array.from(els.propCheckboxes.querySelectorAll('input:checked'))
-                    .map(i=>parseInt(i.value)).sort((a,b)=>a-b);
+    .map(i=>parseInt(i.value)).sort((a,b)=>a-b);
   if(!vals.length) return alert("Select values first");
-  
+
   toggleLoading(true);
   setTimeout(() => {
     let totalSelectedPixels = 0;
     const counts = {};
     vals.forEach(v => counts[v] = 0);
-    
-    // Iterate all processed images (2D or 3D stack)
+
     state.processed.forEach(arr => {
       for(let v of arr) {
         if(counts.hasOwnProperty(v)) {
           counts[v]++;
-          totalSelectedPixels++; 
+          totalSelectedPixels++;
         }
       }
     });
-    
+
     let msg = `Stack Analysis (${state.processed.length} slices):\n`;
     msg += `Total Selected Pixels: ${totalSelectedPixels}\n\n`;
     vals.forEach(v => {
@@ -846,19 +826,19 @@ els.btnCalcProps.addEventListener('click', () => {
 
 els.btnRunAnalysis.addEventListener('click', () => {
   const vals = Array.from(els.propCheckboxes.querySelectorAll('input:checked'))
-                    .map(i=>parseInt(i.value))
-                    .sort((a,b) => a-b);
-  
+    .map(i=>parseInt(i.value))
+    .sort((a,b) => a-b);
+
   if(!vals.length) return alert("Select values");
   const sW = parseFloat(els.sampleWidth.value);
   if(!sW) return alert("Enter Sample Width");
-  
+
   const w = state.images[0].width, h = state.images[0].height;
   const pxArea = (sW/w)**2;
   const secDeg = parseFloat(els.sectorAngle.value)||10;
   const harms = parseInt(els.harmonics.value)||4;
   const conn = parseInt(els.connectivity.value);
-  
+
   toggleLoading(true);
   setTimeout(async () => {
     let header = ["Image Name"];
@@ -868,7 +848,7 @@ els.btnRunAnalysis.addEventListener('click', () => {
       for(let i=1; i<=harms; i++) { header.push(`${val}_a${i}`); header.push(`${val}_b${i}`); }
     });
     let csv = header.join(",") + "\r\n";
-    
+
     state.processed.forEach((arr, idx) => {
       const name = state.files[idx].name;
       let row = [name];
@@ -885,86 +865,328 @@ els.btnRunAnalysis.addEventListener('click', () => {
       });
       csv += row.join(",") + "\r\n";
     });
-    
+
     const blob = new Blob([csv], {type: 'text/csv;charset=utf-8'});
     await saveFileAs(blob, "analysis_report.csv", [{description: 'CSV File', accept: {'text/csv': ['.csv']}}]);
-    
+
     toggleLoading(false);
   }, 100);
 });
 
-// EXTRACT COORDS with Z-Logic
+// EXTRACT COORDS (2D & 3D)
 els.btnExtractCoords.addEventListener('click', async () => {
   if(!state.processed[0]) return;
   const vals = Array.from(els.propCheckboxes.querySelectorAll('input:checked')).map(i=>parseInt(i.value));
   if(!vals.length) return alert("Select values");
+
   const sW = parseFloat(els.sampleWidth.value);
   if(!sW) return alert("Enter Sample Width (in Analysis Panel)");
-  
+
   const w = state.images[0].width, h = state.images[0].height;
   const scale = parseFloat(els.scalingFactor.value) || 1.0;
   const pxW = (sW/w) * scale;
-  
+
+  // Cache A2 and A3..An for later script generation
+  state.lastPxW = pxW;
+  state.lastSelectedGrayValues = vals.slice().sort((a,b)=>a-b);
+
+  // Faster membership checking
+  const valSet = new Set(vals);
+
   // Z-Step Logic
   let zStep = 0;
   if(state.mode === '3D') {
     const sH = parseFloat(els.sampleHeight.value);
     if(!sH) return alert("Enter Sample Height for 3D");
-    // Z spacing = SampleHeight / NumImages (or NumImages-1 depending on interpretation, usually simple division for voxel height)
     zStep = (sH / state.processed.length) * scale;
   }
-  
+
   const origin = els.origin.value;
   let txt = "pos-x(m), pos-y(m), pos-z(m), gray_value\n";
-  
+  let rowCount = 0; // A1: exported rows (excluding header)
+
   toggleLoading(true);
   setTimeout(async () => {
     state.processed.forEach((arr, zIdx) => {
-      // Z starts at 0, increments by step
-      let z = zIdx * zStep;
-      
+      const z = zIdx * zStep;
+
       for(let y=0; y<h; y++) {
         for(let x=0; x<w; x++) {
           const v = arr[y*w+x];
-          if(vals.includes(v)) {
-            let px = x * pxW;
-            let py = y * pxW;
-            if (origin === 'center') { px -= (w/2)*pxW; py -= (h/2)*pxW; py = -py; }
-            else if (origin === 'top-right') { px -= w*pxW; }
-            else if (origin === 'bottom-left') { py -= h*pxW; py = -py; }
-            else if (origin === 'bottom-right') { px -= w*pxW; py -= h*pxW; py = -py; }
-            
-            txt += `${px.toFixed(4)}, ${py.toFixed(4)}, ${z.toFixed(4)}, ${v}\n`;
+          if(!valSet.has(v)) continue;
+
+          let px = x * pxW;
+          let py = y * pxW;
+
+          if (origin === 'center') {
+            px -= (w/2)*pxW; py -= (h/2)*pxW; py = -py;
+          } else if (origin === 'top-right') {
+            px -= w*pxW;
+          } else if (origin === 'bottom-left') {
+            py -= h*pxW; py = -py;
+          } else if (origin === 'bottom-right') {
+            px -= w*pxW; py -= h*pxW; py = -py;
           }
+
+          txt += `${px.toFixed(4)}, ${py.toFixed(4)}, ${z.toFixed(4)}, ${v}\n`;
+          rowCount++;
         }
       }
     });
-    
-    state.lastDataFilename = "pixel_data.txt";
+
+    // Cache A1
+    state.lastPixelCount = rowCount;
+
     const blob = new Blob([txt], {type: 'text/plain'});
-    await saveFileAs(blob, "pixel_data.txt", [{description: 'Text File', accept: {'text/plain': ['.txt']}}]);
+    const suggested = state.lastDataFilename || "pixel_data.txt";
+    const savedName = await saveFileAs(blob, suggested, [{description: 'Text File', accept: {'text/plain': ['.txt']}}]);
+    if (savedName) state.lastDataFilename = savedName;
+
     toggleLoading(false);
   }, 50);
 });
 
-// Script Gen
+// Script Gen - Python
 els.btnGenPy.addEventListener('click', async () => {
   const type = els.codeType.value;
-  const fn = state.lastDataFilename;
   let code = "";
-  if(type === 'Ball') {
-    code = `import itasca as it\nfrom itasca import ballarray as ba\nimport numpy as np\nit.command("model new")\ndata = np.loadtxt("${fn}", delimiter=",", skiprows=1)\nfor row in data:\n  ba.create(1, [row[0], row[1], row[2]])\n  # Set extra logic here based on row[3]`;
+
+  if (type === "Ball") {
+
+    if (!state.lastDataFilename) return alert("Please run 'Extract Coords As...' first.");
+    if (state.lastPxW == null) return alert("Missing pxW (A2). Please run 'Extract Coords As...' again.");
+    if (!state.lastSelectedGrayValues || state.lastSelectedGrayValues.length === 0) {
+      return alert("Missing gray values (A3..). Please select values + Extract Coords first.");
+    }
+
+    const A1 = state.lastDataFilename;
+    const A2 = Number(state.lastPxW);
+    const grayVals = state.lastSelectedGrayValues.map(Number).filter(Number.isFinite);
+    const grayListPy = grayVals.join(", ");
+
+    code =
+`import itasca as it
+import numpy as np
+from scipy.spatial import KDTree
+from collections import defaultdict
+
+it.command("python-reset-state false")
+it.command("""
+model new
+model large-strain on
+model restore 'Yourmodel_Name'
+""")
+
+data = np.loadtxt("${A1}", delimiter=",", skiprows=1)
+pixel_w = ${A2}
+GRAY_VALUES = [${grayListPy}]
+
+grouped_data = defaultdict(list)
+for datum in data:
+    x = float(datum[0])
+    y = float(datum[1])
+    gravy = int(datum[3])
+    grouped_data[gravy].append((x, y))
+
+balls = list(it.ball.list())
+if len(balls) == 0:
+    raise RuntimeError("No balls found in the model. Please check the restored model name.")
+
+ball_ids = [b.id() for b in balls]
+ball_by_id = {b.id(): b for b in balls}
+ball_positions = [(float(b.pos()[0]), float(b.pos()[1])) for b in balls]
+kd_tree = KDTree(ball_positions)
+
+assigned_balls = set()
+
+def set_ball_groups(group_name, positions, radius):
+    for pos in positions:
+        idxs = kd_tree.query_ball_point(pos, radius)
+        for i in idxs:
+            bid = ball_ids[i]
+            if bid in assigned_balls:
+                continue
+            b = ball_by_id.get(bid)
+            if b is not None:
+                b.set_group(group_name)
+                assigned_balls.add(bid)
+
+grouping_order = [(f"Mineral_{i+1}", gv, pixel_w) for i, gv in enumerate(GRAY_VALUES)]
+for group_name, gravy, radius in grouping_order:
+    set_ball_groups(group_name, grouped_data.get(gravy, []), radius)
+
+FALLBACK_GROUP = "Mineral"
+for b in balls:
+    if b.id() not in assigned_balls:
+        b.set_group(FALLBACK_GROUP)
+
+it.command("model save 'Grouped_Model'")
+`;
+  } else if (type === "rblock") {
+
+    if (!state.lastDataFilename) return alert("Please run 'Extract Coords As...' first.");
+    if (state.lastPxW == null) return alert("Missing pxW (A2). Please run 'Extract Coords As...' again.");
+    if (!state.lastSelectedGrayValues || state.lastSelectedGrayValues.length === 0) {
+      return alert("Missing gray values (A3..). Please select values + Extract Coords first.");
+    }
+
+    const A1 = state.lastDataFilename;
+    const A2 = Number(state.lastPxW);
+    const grayVals = state.lastSelectedGrayValues.map(Number).filter(Number.isFinite);
+    const grayListPy = grayVals.join(", ");
+
+    code =
+`import itasca as it
+from itasca import rblock as rblock_module
+import numpy as np
+from scipy.spatial import KDTree
+from collections import defaultdict
+
+it.command("python-reset-state false")
+it.command("""
+model new
+model large-strain on
+model restore 'Yourmodel_Name'
+""")
+
+data = np.loadtxt("${A1}", delimiter=",", skiprows=1)
+pixel_w = ${A2}
+GRAY_VALUES = [${grayListPy}]
+
+grouped_data = defaultdict(list)
+for datum in data:
+    pos = [float(datum[0]), float(datum[1])]
+    gravy = int(datum[3])
+    grouped_data[gravy].append(pos)
+
+rblocks = list(rblock_module.list())
+rb_by_id = {rb.id(): rb for rb in rblocks}
+rblock_positions = [(rb.pos()[0], rb.pos()[1]) for rb in rblocks]
+rblock_ids = [rb.id() for rb in rblocks]
+kd_tree = KDTree(rblock_positions)
+
+assigned_rblocks = set()
+
+def set_rblock_groups(group_name, positions, radius):
+    for pos in positions:
+        indices = kd_tree.query_ball_point(pos, radius)
+        for i in indices:
+            rb_id = rblock_ids[i]
+            if rb_id in assigned_rblocks:
+                continue
+            rb = rb_by_id.get(rb_id)
+            if rb is not None:
+                rb.set_group(group_name)
+                assigned_rblocks.add(rb_id)
+
+grouping_order = [(f"Mineral_{i+1}", gv, pixel_w) for i, gv in enumerate(GRAY_VALUES)]
+for group_name, gravy, radius in grouping_order:
+    set_rblock_groups(group_name, grouped_data.get(gravy, []), radius)
+
+FALLBACK_GROUP = "Mineral"
+for rb in rblocks:
+    if rb.id() not in assigned_rblocks:
+        rb.set_group(FALLBACK_GROUP)
+
+it.command("model save 'Grouped_Model'")
+`;
   } else {
-    code = `import itasca as it\nfrom itasca import rblock as rblock_module\n# ... KDTree Logic ...\n# Load ${fn} and Group rblocks`;
+    alert("Unknown script type.");
+    return;
   }
-  const blob = new Blob([code], {type: 'text/x-python'});
-  await saveFileAs(blob, `script_${type}.py`, [{description: 'Python Script', accept: {'text/x-python': ['.py']}}]);
+
+  const blob = new Blob([code], { type: "text/x-python" });
+  await saveFileAs(
+    blob,
+    `script_${type}.py`,
+    [{ description: "Python Script", accept: { "text/x-python": [".py"] } }]
+  );
 });
 
-els.btnGenFish.addEventListener('click', async () => {
-  const code = `model new\n; Load ${state.lastDataFilename}\n; Loop and create balls`;
-  const blob = new Blob([code], {type: 'text/plain'});
-  await saveFileAs(blob, "script.fish", [{description: 'Fish Script', accept: {'text/plain': ['.fish', '.txt']}}]);
+// Script Gen - Fish (Ball & RBlock)
+els.btnGenFish.addEventListener("click", async () => {
+  const type = els.codeType.value; // "Ball" or "rblock"
+
+  if (!state.lastDataFilename) return alert("Please run 'Extract Coords As...' first.");
+  if (state.lastPxW == null) return alert("Missing pxW (A2). Please run 'Extract Coords As...' again.");
+  if (!state.lastSelectedGrayValues || state.lastSelectedGrayValues.length === 0)
+    return alert("Missing gray values (A3..). Please select values + Extract Coords first.");
+  if (state.lastPixelCount == null)
+    return alert("Missing exported row count (A1). Please export Coords again.");
+
+  const maxI = Number(state.lastPixelCount) + 1; // +1 header
+  const A2 = state.lastDataFilename;
+  const searchR = Number(state.lastPxW); // optional near() search radius
+  const grayVals = state.lastSelectedGrayValues.map(Number).filter(Number.isFinite);
+
+  // Build dynamic if/else-if chain for any number of thresholds
+  const condLines = grayVals.map((gv, idx) => {
+    const kw = idx === 0 ? "if" : "else if";
+    return `${kw} obj_type = ${gv}
+            obj_group = 'Mineral_${idx + 1}'`;
+  }).join("\n        ");
+
+  const modelRestore = "Yourmodel_Name"; // user edits in saved fish
+  const fallbackGroup = "Mineral";
+
+  const isBall = (type === "Ball");
+  const nearFn = isBall ? "ball.near" : "rblock.near";
+  const groupGet = isBall ? "ball.group" : "rblock.group";
+  const listFn  = isBall ? "ball.list"  : "rblock.list";
+
+  const outName = isBall ? "script_ball.dat" : "script_rblock.dat";
+
+  const code =
+`model new
+model restore '${modelRestore}'
+
+fish define assign_groups
+    local max_i = ${maxI}
+    array arr(${maxI})
+
+    local status = file.open('${A2}',0,1)
+    status = file.read(arr,max_i)
+    status = file.close()
+
+    local search_r = ${searchR}
+
+    loop local _i(2, max_i)
+        local x = string.token(arr(_i),1)
+        local y = string.token(arr(_i),2)
+        local obj_type = string.token(arr(_i),4)
+
+        local vp = vector(x,y)
+        local objp = ${nearFn}(vp, search_r)
+
+        if objp
+            local obj_group = ''
+        ${condLines}
+            endif
+
+            if obj_group # ''
+                ${groupGet}(objp) = obj_group
+            endif
+        endif
+    endloop
+
+    ; Fallback: force all remaining objects into '${fallbackGroup}'
+    loop foreach local o ${listFn}
+        if ${groupGet}(o) = ''
+            ${groupGet}(o) = '${fallbackGroup}'
+        endif
+    endloop
+end
+
+@assign_groups
+model save 'Model_grouped'
+`;
+
+  const blob = new Blob([code], { type: "text/plain" });
+  await saveFileAs(
+    blob,
+    outName,
+    [{ description: "Fish Script", accept: { "text/plain": [".fish", ".txt"] } }]
+  );
 });
 
 els.btnSaveImg.addEventListener('click', () => {
