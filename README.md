@@ -39,7 +39,18 @@ Download and open "DIP Tool_V1.0.html" with browser. <br>
 
 # References
 **Please kindly cite the following papers while using the datasets:** <br>
-1. He, C., Mishra, B., & Potyondy, D. O. (2026). Impact of mineralogical features on the mechanical behaviors of granite: A study using physically informed 3D microstructural model. International Journal of Rock Mechanics and Mining Sciences, 197, 106355. <br>
+1. C. He, B. Mishra, Y. Li, J. M. Wempen, Machine learning approaches to predicting the uniaxial compressive strength of granite from image-derived mineralogical features, Engineering Geology (2026) 108571.<br>
+@article{HE2026108571,<br>
+title = {Machine learning approaches to predicting the uniaxial compressive strength of granite from image-derived mineralogical features},<br>
+journal = {Engineering Geology},<br>
+pages = {108571},<br>
+year = {2026},<br>
+issn = {0013-7952},<br>
+doi = {https://doi.org/10.1016/j.enggeo.2026.108571},<br>
+author = {Changdi He and Brijes Mishra and Yuan Li and Jessica Michelle Wempen}<br>
+}<br>
+=====================================================
+2. He, C., Mishra, B., & Potyondy, D. O. (2026). Impact of mineralogical features on the mechanical behaviors of granite: A study using physically informed 3D microstructural model. International Journal of Rock Mechanics and Mining Sciences, 197, 106355. <br>
 @article{he2026impact,<br>
   title={Impact of mineralogical features on the mechanical behaviors of granite: A study using physically informed 3D microstructural model}, <br>
   author={He, Changdi and Mishra, Brijes and Potyondy, David Oskar},<br>
@@ -49,5 +60,3 @@ Download and open "DIP Tool_V1.0.html" with browser. <br>
   year={2026},<br>
   publisher={Elsevier}<br>
 }<br>
-=====================================================
-2. 
