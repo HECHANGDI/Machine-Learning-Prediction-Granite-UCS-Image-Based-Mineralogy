@@ -46,7 +46,8 @@ journal = {Engineering Geology},<br>
 pages = {108571},<br>
 year = {2026},<br>
 issn = {0013-7952},<br>
-doi = {https://doi.org/10.1016/j.enggeo.2026.108571},<br>
+doi = {10.1016/j.enggeo.2026.108571},<br>
+url = {https://doi.org/10.1016/j.enggeo.2026.108571},<br>
 author = {Changdi He and Brijes Mishra and Yuan Li and Jessica Michelle Wempen}<br>
 }<br>
 =====================================================
@@ -58,5 +59,7 @@ author = {Changdi He and Brijes Mishra and Yuan Li and Jessica Michelle Wempen}<
   volume={197},<br>
   pages={106355},<br>
   year={2026},<br>
+  doi = {10.1016/j.ijrmms.2025.106355},<br>
+  url = {https://doi.org/10.1016/j.ijrmms.2025.106355},<br>
   publisher={Elsevier}<br>
 }<br>
