@@ -11,8 +11,7 @@ Find the images in the folder of: Granite_Images_G1-G126 <br>
 
 # DIP Web Tool
 Download and open "DIP Tool_V1.0.html" with browser. <br>
-<img width="800" height="800" alt="image" src="https://github.com/user-attachments/assets/7a71a78f-c634-4cef-b97d-50b00cfaade7" />
-
+<img width="800" height="800" alt="DIP_tool_GUI3" src="https://github.com/user-attachments/assets/2bd1afeb-43b4-4e1b-bef1-652867c4ab89" />
 
 # Machine learning
 **a. Training the Optuna-XGBoost model using the features (without SHAP-based feature selection for Cases 4 -- 7)**
