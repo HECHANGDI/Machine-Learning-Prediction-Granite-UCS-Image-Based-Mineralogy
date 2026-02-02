@@ -10,7 +10,7 @@ Find the images in the folder of: Granite_Images_G1-G126 <br>
 <img width="800" height="700" alt="image" src="https://github.com/user-attachments/assets/da2c3bc3-7dfa-4d57-b6f5-46f5ec677211" />
 
 # DIP Web Tool
-Download and open "DIP Tool_V1.0.html" with browser. <br>
+Please access the DIP tool online by clicking the following link: https://hechangdi.github.io/DIP_Tool/
 <img width="800" height="800" alt="DIP_tool_GUI3" src="https://github.com/user-attachments/assets/2bd1afeb-43b4-4e1b-bef1-652867c4ab89" />
 
 # Machine learning
